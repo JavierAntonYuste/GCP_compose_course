@@ -1,0 +1,10 @@
+version: '3'
+services:
+  sftp-server:
+    image: atmoz/sftp
+    ports:
+      - "2222:22"
+    volumes:
+      - ./data:/home/airflow
+    environment:
+      SFTP_USERS: "airflow:airflow:1001"
