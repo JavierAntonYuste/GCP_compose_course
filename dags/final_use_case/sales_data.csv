@@ -1,0 +1,11 @@
+date,product_id,product_name,category,quantity,unit_price,total_sales
+2024-01-01,001,Laptop,Electronics,5,1200.00,6000.00
+2024-01-01,002,Smartphone,Electronics,10,800.00,8000.00
+2024-01-02,003,T-shirt,Clothing,20,25.00,500.00
+2024-01-02,004,Jeans,Clothing,15,50.00,750.00
+2024-01-03,005,Coffee Maker,Home Appliances,8,100.00,800.00
+2024-01-03,001,Laptop,Electronics,3,1200.00,3600.00
+2024-01-04,002,Smartphone,Electronics,7,800.00,5600.00
+2024-01-04,003,T-shirt,Clothing,25,25.00,625.00
+2024-01-05,004,Jeans,Clothing,12,50.00,600.00
+2024-01-05,005,Coffee Maker,Home Appliances,5,100.00,500.00
