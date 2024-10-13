@@ -4,12 +4,14 @@ from airflow.providers.google.cloud.operators.gcs import GCSCreateBucketOperator
 from airflow.providers.google.cloud.operators.dataflow import DataflowCreatePythonJobOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator, BigQueryCreateEmptyDatasetOperator
 from airflow.utils.dates import days_ago
+from airflow.sensors.time_delta import TimeDeltaSensor
+from datetime import timedelta
 
 
 # Define your GCP project ID, GCS bucket, and BigQuery dataset
-PROJECT_ID = "qwiklabs-gcp-02-d63aac9730df"
-BUCKET_NAME = "qwiklabs-gcp-02-d63aac9730df"
-REGION = "us-east4"
+PROJECT_ID = "qwiklabs-gcp-01-b255f06c92eb"
+BUCKET_NAME = "qwiklabs-gcp-01-b255f06c92eb"
+REGION = "us-east1"
 
 DATASET_NAME = "sales_data"
 TABLE_NAME = "sales_raw"
@@ -64,6 +66,12 @@ run_dataflow = DataflowCreatePythonJobOperator(
         # "setup_file": f"gs://{BUCKET_NAME}/dataflow_setup.py",
     },
     py_options=[],
+    dag=dag,
+)
+
+delay_task = TimeDeltaSensor(
+    task_id='delay_task',
+    delta=timedelta(minutes=1),
     dag=dag,
 )
 
@@ -172,7 +180,7 @@ generate_sales_report = BigQueryExecuteQueryOperator(
 )
 
 # Define the task dependencies
-create_bucket >> create_bigquery_dataset >> run_dataflow
-run_dataflow >> create_materialized_view >> append_columns >> create_summary
-run_dataflow >> data_quality_check
-run_dataflow >> generate_sales_report
+create_bucket >> create_bigquery_dataset >> run_dataflow >> delay_task
+delay_task >> create_materialized_view >> append_columns >> create_summary
+delay_task >> data_quality_check
+delay_task >> generate_sales_report
